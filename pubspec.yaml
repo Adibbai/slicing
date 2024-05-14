@@ -1,0 +1,55 @@
+name: flutter_app
+description: "A new Flutter project."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  google_fonts: ^6.2.1
+  flutter_svg: ^0.22.0
+  
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+
+flutter:
+  uses-material-design: true
+  assets:
+  - assets/images/cz_0220133_phcfh_00110002.png
+  - assets/images/collapse_arrow.png
+  - assets/images/hand_drawn_star.png
+  - assets/images/favorite.png
+  - assets/images/left_arrow.png
+  - assets/images/buying.png
+  - assets/images/cz_0220133_phcfh_00110002.png
+  - assets/images/home_page.png
+  - assets/images/search.png
+  - assets/images/online_store.png
+  - assets/images/user.png
+  - assets/images/rectangle_9.png
+  - assets/images/nike_air_max_90_dh_461900381.png
+  - assets/images/off_white_nike_air_terra_forma_dq_1615700_pair_1.png
+  - assets/images/ellipse_1.jpeg
+  - assets/images/ellipse_1.jpeg
+  - assets/images/buying.png
+  - assets/images/collapse_arrow.png
+  - assets/images/nike_air_max_90_dh_461900381.png
+  - assets/images/search.png
+  - assets/images/cz_0220133_phcfh_00110002.png
+  - assets/images/favorite.png
+  - assets/images/left_arrow.png
+  - assets/images/off_white_nike_air_terra_forma_dq_1615700_pair_1.png
+  - assets/images/rectangle_9.png
+  - assets/images/online_store.png
+  - assets/images/home_page.png
+  - assets/images/hand_drawn_star.png
+  - assets/images/user.png
+
