@@ -1,28 +1,31 @@
 import 'package:appwrite/appwrite.dart';
+import 'dart:developer';
 
-class AppwriteService {
-  Client client;
-  Database database;
+class AppWrite {
+  static final _client = Client();
+  static final _database = Databases(_client);
 
-  AppwriteService()
-      : client = Client(),
-        database = Database(client) {
-    client
-        .setEndpoint('https://cloud.appwrite.io/v1') // Ganti dengan endpoint Appwrite Anda
-        .setProject('66975cf1001b0f662214') // Ganti dengan ID project Appwrite Anda
-        .setSelfSigned(status: true);
+  static void init(){
+  _client
+    .setEndpoint('https://cloud.appwrite.io/v1')
+    .setProject('66975cf1001b0f662214')
+    .setSelfSigned(status: true);
+    getMusic();
   }
-
-  Future<List<dynamic>> fetchData() async {
+  
+static Future<Map<String, dynamic>?> getMusic() async {
     try {
-      Response response = await database.listDocuments(
-        databaseId: '[66975d01001405a28f1f]', // Ganti dengan ID database Anda
-        collectionId: '[66975d41002b51872054]', // Ganti dengan ID koleksi Anda
+      final response = await _database.getDocument(
+        databaseId: "66975d01001405a28f1f",
+        collectionId: "66975d0c0021d2c01eb3",
+        documentId: "66976a35002a068204fa",
       );
-      return response.data['documents'];
+      log(response.data.toString());
+      return response.data;
     } catch (e) {
-      print(e);
-      return [];
+      log('$e');
+      return null;
     }
   }
+
 }

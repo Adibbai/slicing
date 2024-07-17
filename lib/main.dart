@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/appwrite_service.dart';
+import 'package:flutter_app/appwrite_service.dart'; // Sesuaikan dengan lokasi implementasi AppWrite Anda
 
 import 'package:flutter_app/pages/iphone_13_mini_3.dart';
 import 'package:flutter_app/pages/iphone_13_mini_4.dart';
 import 'package:flutter_app/pages/plugin_file_cover_1.dart';
-void main() => runApp(const MyApp());
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  // Pastikan AppWrite diinisialisasi sebelum menjalankan aplikasi
+  AppWrite.init(); // Sesuaikan dengan inisialisasi AppWrite Anda
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -25,7 +31,7 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter App'),
+        title: const Text('Flutter App'),
       ),
       body: Center(
         child: Column(
@@ -38,7 +44,7 @@ class MyHomePage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => Iphone13Mini3()),
                 );
               },
-              child: Text('Open iPhone 13 Mini 3 Page'),
+              child: const Text('Open iPhone 13 Mini 3 Page'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -47,7 +53,7 @@ class MyHomePage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => Iphone13Mini4()),
                 );
               },
-              child: Text('Open iPhone 13 Mini 4 Page'),
+              child: const Text('Open iPhone 13 Mini 4 Page'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -56,7 +62,7 @@ class MyHomePage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => PluginFileCover1()),
                 );
               },
-              child: Text('Open Plugin File Cover 1 Page'),
+              child: const Text('Open Plugin File Cover 1 Page'),
             ),
           ],
         ),
@@ -64,46 +70,41 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
-class HomeScreen extends StatefulWidget {
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
 
-class _HomeScreenState extends State<HomeScreen> {
-  late AppwriteService appwriteService;
-  List<dynamic> documents = [];
-
-  @override
-  void initState() {
-    super.initState();
-    appwriteService = AppwriteService();
-    fetchData();
-  }
-
-  Future<void> fetchData() async {
-    List<dynamic> data = await appwriteService.fetchData();
-    setState(() {
-      documents = data;
-    });
-  }
-
+class MyDataPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Data List'),
+        title: const Text('Data List'),
       ),
-      body: documents.isEmpty
-          ? Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: documents.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(documents[index]['title']),
-                  subtitle: Text(documents[index]['description']),
-                );
-              },
-            ),
+      body: FutureBuilder<Map<String, dynamic>?>(
+        future: AppWrite.getMusic(), // Panggil AppWrite.getMusic() untuk mengambil data musik
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else {
+            if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else if (snapshot.hasData) {
+              // Data berhasil diambil, tampilkan daftar musik
+              Map<String, dynamic> documents = snapshot.data!;
+
+              return ListView.builder(
+                itemCount: documents.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(documents[index]['title'] ?? ''),
+                    subtitle: Text(documents[index]['description'] ?? ''),
+                  );
+                },
+              );
+            } else {
+              return Center(child: Text('No data available'));
+            }
+          }
+        },
+      ),
     );
   }
 }
